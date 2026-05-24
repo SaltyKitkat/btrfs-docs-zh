@@ -4,7 +4,7 @@
 
 Extent Tree 是 Btrfs 空间管理的核心。它追踪磁盘上每一段已分配空间（extent）的引用计数、类型以及反向引用（backref）信息。
 
-超级块中的 `extent_root` 字段保存 Extent Tree 根节点的逻辑地址。
+Extent Tree 的根节点作为 `ROOT_ITEM` 存入 [Root Tree](root-tree.md)，key 为 `(EXTENT_TREE_OBJECTID, ROOT_ITEM_KEY, 0)`。超级块的 `super_roots` 备份数组中包含其根节点逻辑地址的副本。
 
 ## Key-Item 结构
 

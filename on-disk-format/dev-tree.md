@@ -51,7 +51,7 @@ struct btrfs_dev_extent {
 一个 chunk（由 `btrfs_chunk` 描述）包含若干 stripe，每个 stripe 位于不同（或相同）设备上。每个 stripe 在其所在设备上对应一个 `DEV_EXTENT`：
 
 - chunk 中 `num_stripes` 个 stripe 对应 `num_stripes` 个 `DEV_EXTENT` 条目
-- 每个 `DEV_EXTENT` 的 `length` 与 chunk 的 `length` 相同（SINGLE/DUP 模式下），或为 `length / num_stripes`（RAID0/RAID10 条带化模式下）
+- 每个 `DEV_EXTENT` 的 `length` 与 chunk 的 `length` 相同（SINGLE/DUP 模式下），或为 `length / num_stripes`（RAID0 条带化模式下），或为 `length × sub_stripes / num_stripes`（RAID10 模式下）
 - stripe 的 `devid` 匹配 `DEV_EXTENT` 的 objectid，stripe 的 `offset` 匹配 `DEV_EXTENT` 的 key.offset
 
 ### DEV_STATS (249)

@@ -13,7 +13,7 @@ Btrfs 区分**逻辑地址（logical address）**和**物理地址（physical ad
 
 **Chunk Tree** 负责将逻辑地址转换为物理地址；**Dev Tree** 则处理反向映射。
 
-超级块包含了指向 Root Tree 和 Chunk Tree 根节点的逻辑地址。为了**自举**（bootstrapping）——即在 Chunk Tree 本身尚未可读时定位 SYSTEM chunk——超级块还内嵌了一个 `sys_chunk_array`，其中存放了所有 SYSTEM chunk 的 `(KEY, CHUNK_ITEM)` 对。[详见 Chunk Tree 的自举章节](chunk-tree.md#自举)。
+超级块包含了指向 Root Tree 和 Chunk Tree 根节点的逻辑地址。为了**自举**（bootstrapping）——即在 Chunk Tree 本身尚未可读时定位 SYSTEM chunk——超级块还内嵌了一个 `sys_chunk_array`，其中存放了自举所需的 SYSTEM chunk（受限于 2048 字节容量）的 `(KEY, CHUNK_ITEM)` 对。[详见 Chunk Tree 的自举章节](chunk-tree.md#自举)。
 
 ## 命名约定
 
@@ -33,4 +33,4 @@ Btrfs 区分**逻辑地址（logical address）**和**物理地址（physical ad
 - [CSUM Tree](csum-tree.md) — 数据校验和
 - [UUID Tree](uuid-tree.md) — UUID 条目
 - [Free Space Tree](free-space-tree.md) — 空闲空间信息
-- [Orphan and Log（孤儿项与日志树）](orphan-and-log.md) — 孤儿节点处理与 WAL 日志
+- [Block Group Tree](block-group-tree.md) — 每个 block group 的分配信息

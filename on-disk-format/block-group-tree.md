@@ -4,7 +4,7 @@
 
 Block Group Tree 存储所有 block group 的分配状态。此树仅在 `BLOCK_GROUP_TREE` compat_ro 特性启用时存在；未启用时，block group 信息存储在 [Extent Tree](extent-tree.md) 中。
 
-超级块中的 `block_group_root` 字段保存 Block Group Tree 根节点的逻辑地址。
+Block Group Tree 的根节点作为 `ROOT_ITEM` 存入 [Root Tree](root-tree.md)，key 为 `(BLOCK_GROUP_TREE_OBJECTID, ROOT_ITEM_KEY, 0)`。
 
 ## Key-Item 结构
 

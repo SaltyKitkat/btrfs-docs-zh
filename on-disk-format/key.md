@@ -42,7 +42,7 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 
 | 偏移 | 大小 | 类型 | 说明 |
 |------|------|------|------|
-| 0x0 | 0x8 | SINT | 自 1970-01-01T00:00:00Z 以来的秒数 |
+| 0x0 | 0x8 | UINT | 自 1970-01-01T00:00:00Z 以来的秒数 |
 | 0x8 | 0x4 | UINT | 本秒内的纳秒数 |
 
 ## 保留的 Object ID
@@ -116,7 +116,8 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 | RAID_STRIPE_TREE | 12 | RAID Stripe Tree |
 | REMAP_TREE | 13 | Remap Tree |
 | ORPHAN | -5ULL | 孤儿根追踪 |
-| TREE_LOG | -6ULL / -7ULL | 日志树 |
+| TREE_LOG | -6ULL | 日志树（WAL） |
+| TREE_LOG_FIXUP | -7ULL | 日志修复树 |
 | TREE_RELOC | -8ULL | 树迁移用的临时树 |
 | DATA_RELOC | -9ULL | 数据迁移用的临时树 |
 | FIRST_FREE | 256ULL | 文件树中第一个可用的 objectid |

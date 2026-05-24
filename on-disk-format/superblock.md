@@ -89,7 +89,7 @@ struct btrfs_super_block {
 
 | 字段名 | 偏移 | 大小 | 类型 | 说明 |
 |--------|------|------|------|------|
-| `csum` | 0x0 | 0x20 | CSUM | 本字段之后（0x20 到 0x3e8）所有内容的校验和 |
+| `csum` | 0x0 | 0x20 | CSUM | 本字段之后（0x20 到 0x1000）所有内容的校验和。超级块结构体并未占满 `BTRFS_SUPER_INFO_SIZE`（4096 字节），未使用部分以零填充，并包含在校验和范围内 |
 | `fsid` | 0x20 | 0x10 | UUID | 文件系统 UUID |
 | `bytenr` | 0x30 | 0x8 | UINT | 本块的物理地址（各镜像不同） |
 | `flags` | 0x38 | 0x8 | flags | 标志位 |
@@ -117,7 +117,7 @@ struct btrfs_super_block {
 | `chunk_root_level` | 0xc7 | 0x1 | UINT | Chunk Tree 根节点的层级 |
 | `log_root_level` | 0xc8 | 0x1 | UINT | Log Tree 根节点的层级 |
 | `dev_item` | 0xc9 | 0x62 | DEV_ITEM | 本设备的 DEV_ITEM 数据 |
-| `label` | 0x12b | 0x100 | ASCII | 标签（不可包含 `'/'` 或 `'\\'`） |
+| `label` | 0x12b | 0x100 | ASCII | 标签（btrfs-progs 限制不可包含 `'/'` 或 `'\\'`，内核不作校验） |
 | `cache_generation` | 0x22b | 0x8 | UINT | 空闲空间缓存 v1 的 generation。非零表示正使用 v1 缓存 |
 | `uuid_tree_generation` | 0x233 | 0x8 | UINT | UUID Tree 根节点的事务代次 |
 | `metadata_uuid` | 0x23b | 0x10 | UUID | 写入 B-tree 节点的 UUID，可能与 `fsid` 不同 |
