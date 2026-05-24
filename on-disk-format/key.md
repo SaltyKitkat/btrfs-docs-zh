@@ -112,6 +112,9 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 | QUOTA_TREE | 8 | Quota Tree |
 | UUID_TREE | 9 | UUID Tree |
 | FREE_SPACE_TREE | 10 | Free Space Tree |
+| BLOCK_GROUP_TREE | 11 | Block Group Tree |
+| RAID_STRIPE_TREE | 12 | RAID Stripe Tree |
+| REMAP_TREE | 13 | Remap Tree |
 | ORPHAN | -5ULL | 孤儿根追踪 |
 | TREE_LOG | -6ULL / -7ULL | 日志树 |
 | TREE_RELOC | -8ULL | 树迁移用的临时树 |
@@ -144,6 +147,7 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 | `BTRFS_ROOT_REF_KEY` | 156 | ROOT_TREE | [root-tree.md](root-tree.md) |
 | `BTRFS_EXTENT_ITEM_KEY` | 168 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |
 | `BTRFS_METADATA_ITEM_KEY` | 169 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |
+| `BTRFS_EXTENT_OWNER_REF_KEY` | 172 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |
 | `BTRFS_TREE_BLOCK_REF_KEY` | 176 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |
 | `BTRFS_EXTENT_DATA_REF_KEY` | 178 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |
 | `BTRFS_SHARED_BLOCK_REF_KEY` | 182 | EXTENT_TREE | [extent-tree.md](extent-tree.md) |

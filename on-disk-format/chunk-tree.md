@@ -11,7 +11,7 @@ Chunk Tree 负责将**逻辑地址（logical address）映射到物理地址（p
 | Object ID | Type | Offset | Item 结构 | 说明 |
 |-----------|------|--------|-----------|------|
 | `FIRST_CHUNK_TREE (256)` | `CHUNK_ITEM (228)` | chunk 的逻辑起始地址 | `btrfs_chunk` | 一段逻辑地址范围到物理设备的映射。objectid 固定为 256 |
-| 设备 ID | `DEV_ITEM (216)` | 0 | `btrfs_dev_item` | 文件系统中每块设备的描述信息 |
+| `DEV_ITEMS (1)` | `DEV_ITEM (216)` | 设备 ID | `btrfs_dev_item` | 文件系统中每块设备的描述信息 |
 
 ### CHUNK_ITEM (228)
 
@@ -56,7 +56,7 @@ struct btrfs_chunk {
 | `sector_size` | 0x28 | 4 | 最小 IO 大小 |
 | `num_stripes` | 0x2c | 2 | stripe 的数量。SINGLE 为 1，RAID1 为 2，RAID10 通常 ≥ 4 |
 | `sub_stripes` | 0x2e | 2 | RAID10 的子 stripe 数，非 RAID10 为 1 |
-| `stripe` | 0x30 | 24 | 第一个 stripe。`sizeof(btrfs_stripe)` = 24 字节，后续 stripe 紧接其后 |
+| `stripe` | 0x30 | 32 | 第一个 stripe。`sizeof(btrfs_stripe)` = 32 字节，后续 stripe 紧接其后 |
 
 #### Stripe
 
@@ -100,9 +100,9 @@ struct btrfs_stripe {
 
 key 的三元组：
 
-- objectid：设备 ID
+- objectid：`DEV_ITEMS_OBJECTID (1)`
 - type：216
-- offset：0
+- offset：设备 ID
 
 ```c
 /* include/uapi/linux/btrfs_tree.h */

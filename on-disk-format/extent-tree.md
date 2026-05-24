@@ -125,9 +125,9 @@ struct btrfs_extent_inline_ref {
 |----------|--------|----------|
 | `EXTENT_OWNER_REF_KEY (172)` | 9（仅头部） | 无，offset = 拥有者 root_id |
 | `TREE_BLOCK_REF_KEY (176)` | 9（仅头部） | 无，offset = 引用者树的 root_id |
-| `EXTENT_DATA_REF_KEY (178)` | 33 | `btrfs_extent_data_ref`（头部 offset 字段被覆写为此结构） |
+| `EXTENT_DATA_REF_KEY (178)` | 29 | `btrfs_extent_data_ref`（头部 offset 字段被覆写为此结构） |
 | `SHARED_BLOCK_REF_KEY (182)` | 9（仅头部） | 无，offset = 父节点 bytenr |
-| `SHARED_DATA_REF_KEY (184)` | 17 | `btrfs_shared_data_ref`（offset = 父节点 bytenr） |
+| `SHARED_DATA_REF_KEY (184)` | 13 | `btrfs_shared_data_ref`（offset = 父节点 bytenr） |
 
 ### EXTENT_OWNER_REF (172)
 

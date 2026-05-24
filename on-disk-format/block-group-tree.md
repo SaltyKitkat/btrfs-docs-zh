@@ -49,7 +49,7 @@ block group item 的 `chunk_objectid` 即为对应 chunk item key 的 `objectid`
 | 特性 | item body 大小 | 结构 |
 |------|---------------|------|
 | 未启用（默认） | 24 字节 | `btrfs_block_group_item`（3 字段） |
-| 启用 `REMAP_TREE` | 40 字节 | `btrfs_block_group_item_v2`（5 字段） |
+| 启用 `REMAP_TREE` | 36 字节 | `btrfs_block_group_item_v2`（5 字段） |
 
 ### v2 结构
 
