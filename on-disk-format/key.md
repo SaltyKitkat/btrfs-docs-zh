@@ -160,6 +160,7 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 | `BTRFS_DEV_EXTENT_KEY` | 204 | DEV_TREE | [dev-tree](dev-tree.md) |
 | `BTRFS_DEV_ITEM_KEY` | 216 | CHUNK_TREE | [chunk-tree](chunk-tree.md) |
 | `BTRFS_CHUNK_ITEM_KEY` | 228 | CHUNK_TREE | [chunk-tree](chunk-tree.md) |
+| `BTRFS_RAID_STRIPE_KEY` | 230 | RAID_STRIPE_TREE | [raid-stripe-tree](raid-stripe-tree.md) |
 | `BTRFS_QGROUP_STATUS_KEY` | 240 | QUOTA_TREE | [quota-tree](quota-tree.md) |
 | `BTRFS_QGROUP_INFO_KEY` | 242 | QUOTA_TREE | [quota-tree](quota-tree.md) |
 | `BTRFS_QGROUP_LIMIT_KEY` | 244 | QUOTA_TREE | [quota-tree](quota-tree.md) |

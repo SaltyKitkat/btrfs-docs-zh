@@ -33,5 +33,6 @@ Btrfs 区分**逻辑地址（logical address）**和**物理地址（physical ad
 - [CSUM Tree](csum-tree.md) — 数据校验和
 - [Quota Tree](quota-tree.md) — 子卷配额管理
 - [UUID Tree](uuid-tree.md) — UUID 条目
+- [RAID Stripe Tree](raid-stripe-tree.md) — RAID 数据 extent 的物理位置映射
 - [Free Space Tree](free-space-tree.md) — 空闲空间信息
 - [Block Group Tree](block-group-tree.md) — 每个 block group 的分配信息
