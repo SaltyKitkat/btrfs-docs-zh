@@ -189,7 +189,9 @@ struct btrfs_root_backup {
 
 ## 系统 Chunk 数组
 
-`sys_chunk_array` 用于挂载时**自举** Chunk Tree。详见 [Chunk Tree 的自举章节](chunk-tree.md#自举)。
+`sys_chunk_array` 保存**所有** SYSTEM block group 的 chunk 条目。每条条目由一个 `btrfs_disk_key` 后接 `btrfs_chunk_item` 组成。新分配 SYSTEM chunk 时通过 `btrfs_add_system_chunk()` 追加，释放时通过 `btrfs_del_sys_chunk()` 移除——无筛选，全量保存。若数组空间不足，分配返回 `-EFBIG`。
+
+数组大小硬上限为 `BTRFS_SYSTEM_CHUNK_ARRAY_SIZE = 2048` 字节，与超级块其他字段共享 `BTRFS_SUPER_INFO_SIZE`（4096）。详见 [Chunk Tree 的自举章节](chunk-tree.md#自举)。
 
 ```c
 /* include/uapi/linux/btrfs_tree.h */
@@ -200,3 +202,17 @@ struct btrfs_root_backup {
  */
 #define BTRFS_SYSTEM_CHUNK_ARRAY_SIZE 2048
 ```
+
+**上游注释已过时**：注释声称可容纳"14 个 3-stripe chunk"，但自该注释写入以来三次结构体变更导致单条目膨胀，上限已降至 **12 条**：
+
+| 变更 | 提交 | btrfs_chunk | btrfs_stripe | 3-stripe 条目 |
+|------|------|-------------|-------------|---------------|
+| 多设备支持（原始） | `0b86a832a1f3` | 54 B | 16 B | 103 B → **19 条** |
+| +chunk UUID | `e17cade25ff8` | 78 B | 32 B | 159 B → **12 条** |
+| +RAID10 sub_stripes | `321aecc65671` | 80 B | 32 B | 161 B → **12 条** |
+
+> 以上三次结构体变更均发生于 2008 年 4 月，早于 Btrfs 合入主线（2.6.29，2009 年 1 月）。彼时磁盘格式尚在初始开发阶段，不存在跨版本的兼容性问题。自合入主线至今，`btrfs_chunk` 和 `btrfs_stripe` 的布局保持稳定。
+
+原始注释写"14 条"时实际上限为 19，属保守估计。`btrfs_chunk_item_size(n) = sizeof(btrfs_chunk) + sizeof(btrfs_stripe) × (n - 1)`，目前 3-stripe 条目为 17 + 80 + 32×2 = 161 字节，`2048 / 161 = 12.7`，最多 12 条。
+
+> 此限制在极端场景（如设备替换期间 cleaner 线程未及时回收）可能触发 `-EFBIG`，详见 `fs/btrfs/scrub.c:2798` 附近注释。
