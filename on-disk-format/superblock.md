@@ -183,6 +183,10 @@ struct btrfs_root_backup {
 } __attribute__ ((__packed__));
 ```
 
+`super_roots` 保存了最近 4 次事务提交时的各树根节点逻辑地址，按环形缓冲区轮转。挂载时若当前 root 损坏，可通过 `USEBACKUPROOT` 挂载选项回退到较早的备份。
+
+**重要限制**：backup roots 仅记录根节点的逻辑地址，Btrfs 不会因此保留或 pin 住这些逻辑地址对应的 tree block。COW 产生新根节点后，旧节点对应的 extent 仍会被正常释放，其空间可被后续写入覆盖。因此 backup roots 仅在超级块自身损坏（如写入超级块时崩溃）且底层 tree block 尚未被覆写时有效——它是一种尽力而为（best-effort）的恢复机制，不保证旧数据完整性。
+
 ## 系统 Chunk 数组
 
 `sys_chunk_array` 用于挂载时**自举** Chunk Tree。详见 [Chunk Tree 的自举章节](chunk-tree.md#自举)。
