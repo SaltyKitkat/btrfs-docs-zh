@@ -228,11 +228,18 @@ struct btrfs_dir_item {
 
 | 字段名 | 偏移 | 大小 | 说明 |
 |--------|------|------|------|
-| `location` | 0x0 | 17 | 指向目标 inode 的 key（`(inode_number, INODE_ITEM, 0)`） |
+| `location` | 0x0 | 17 | 指向目标 inode 的 key |
 | `transid` | 0x11 | 8 | 创建此目录项的事务代次 |
 | `data_len` | 0x19 | 2 | 附加数据长度（通常为 0） |
 | `name_len` | 0x1b | 2 | 文件名长度（字节） |
 | `type` | 0x1d | 1 | 文件类型（`BTRFS_FT_*`），见下表 |
+
+`location`
+
+- 普通文件: `(inode_number, INODE_ITEM, 0)`
+- 子卷: `(subvolid, ROOT_ITEM, 0)`
+- 使用 `btrfs snapshot` 创建的快照: `(subvolid, ROOT_ITEM, -1)`
+- 被移动过的快照: `(subvolid, ROOT_ITEM, created_gen)`
 
 `type` 后紧接 `name_len` 字节的文件名（不含结尾 `\0`）。
 
