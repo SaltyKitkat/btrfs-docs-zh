@@ -136,9 +136,9 @@ Key 按 `(objectid, type, offset)` 三元组进行字典序排序。所有字段
 | `BTRFS_XATTR_ITEM_KEY` | 24 | FS_TREE | [fs-tree](fs-tree.md) |
 | `BTRFS_VERITY_DESC_ITEM_KEY` | 36 | FS_TREE | [fs-tree](fs-tree.md) |
 | `BTRFS_VERITY_MERKLE_ITEM_KEY` | 37 | FS_TREE | [fs-tree](fs-tree.md) |
-| `BTRFS_ORPHAN_ITEM_KEY` | 48 | ROOT_TREE | [orphan-and-log](orphan-and-log.md) |
-| `BTRFS_DIR_LOG_ITEM_KEY` | 60 | LOG_TREE | [orphan-and-log](orphan-and-log.md) |
-| `BTRFS_DIR_LOG_INDEX_KEY` | 72 | LOG_TREE | [orphan-and-log](orphan-and-log.md) |
+| `BTRFS_ORPHAN_ITEM_KEY` | 48 | FS_TREE / ROOT_TREE | [orphan](orphan.md) |
+| `BTRFS_DIR_LOG_ITEM_KEY` | 60 | LOG_TREE | [tree-log](tree-log.md) |
+| `BTRFS_DIR_LOG_INDEX_KEY` | 72 | LOG_TREE | [tree-log](tree-log.md) |
 | `BTRFS_DIR_ITEM_KEY` | 84 | FS_TREE | [fs-tree](fs-tree.md) |
 | `BTRFS_DIR_INDEX_KEY` | 96 | FS_TREE | [fs-tree](fs-tree.md) |
 | `BTRFS_EXTENT_DATA_KEY` | 108 | FS_TREE | [fs-tree](fs-tree.md) |

@@ -31,6 +31,8 @@ Btrfs 区分**逻辑地址（logical address）**和**物理地址（physical ad
 - [Extent Tree](extent-tree.md) — 空间分配与引用计数
 - [FS Tree](fs-tree.md) — 文件与目录数据
 - [CSUM Tree](csum-tree.md) — 数据校验和
+- [Orphan Item](orphan.md) — 未完成删除/创建的中断恢复
+- [Tree Log](tree-log.md) — fsync 的写前日志（WAL）
 - [Quota Tree](quota-tree.md) — 子卷配额管理
 - [UUID Tree](uuid-tree.md) — UUID 条目
 - [RAID Stripe Tree](raid-stripe-tree.md) — RAID 数据 extent 的物理位置映射
