@@ -2,7 +2,8 @@
 
 树 ID `ROOT_TREE (1)`。
 
-Root Tree 是文件系统的**顶层索引**。它存储指向所有其他树的根节点信息，每个条目（`ROOT_ITEM`）对应一个子卷（subvolume）、快照（snapshot）或系统树（Extent Tree、Chunk Tree 等）。
+Root Tree 是文件系统的**顶层索引**。它存储所有其他树的根节点信息。
+每个`ROOT_ITEM`条目对应一个树（extent tree, chunk tree等，和per subvol fs tree）
 
 超级块中的 `root` 字段保存了 Root Tree 根节点的逻辑地址。
 
@@ -23,7 +24,7 @@ Root Tree 是文件系统的**顶层索引**。它存储指向所有其他树的
 
 key 的三元组：
 
-- objectid：子卷、快照或系统树的 ID
+- objectid：树的 ID
 - type：132
 - offset：普通条目为 0，快照条目为创建时的事务代次
 
@@ -67,7 +68,7 @@ struct btrfs_root_item {
 | `inode` | 0x0 | 160 | 嵌入的 [inode item](fs-tree.md#inode_item-结构)，记录子卷自身的元数据。`size` 始终为 0。`flags` 可包含 `BTRFS_INODE_ROOT_ITEM_INIT (1U << 31)` |
 | `generation` | 0xa0 | 8 | 本 root item 最后更新时的事务代次 |
 | `root_dirid` | 0xa8 | 8 | 子卷根目录的 inode 号。系统树此字段为 0 |
-| `bytenr` | 0xb0 | 8 | 该树根节点的逻辑地址。和 `level` 一起描述树的根节点位置 |
+| `bytenr` | 0xb0 | 8 | 该树根节点的逻辑地址。 |
 | `byte_limit` | 0xb8 | 8 | 子卷的字节限制。0 表示无限制 |
 | `bytes_used` | 0xc0 | 8 | 子卷已使用的字节数 |
 | `last_snapshot` | 0xc8 | 8 | 从此子卷创建的最新快照的事务代次 |
@@ -78,7 +79,7 @@ struct btrfs_root_item {
 | `level` | 0xee | 1 | 该树根节点的层级 |
 | `generation_v2` | — | 8 | generation 的副本，用于检测新旧内核兼容性 |
 | `uuid` | — | 16 | 子卷的 UUID |
-| `parent_uuid` | — | 16 | 父子卷的 UUID（快照的源子卷）。原始子卷为全零 |
+| `parent_uuid` | — | 16 | 父子卷的 UUID（快照的源子卷）。未使用snapshot创建的子卷为全零 |
 | `received_uuid` | — | 16 | 接收子卷的 UUID。非 received 子卷为全零 |
 | `ctransid` | — | 8 | 子卷内 inode 变更时更新的事务代次 |
 | `otransid` | — | 8 | 子卷创建时的事务代次 |
