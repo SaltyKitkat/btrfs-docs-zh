@@ -91,44 +91,44 @@ struct btrfs_super_block {
 |--------|------|------|------|------|
 | `csum` | 0x0 | 0x20 | CSUM | 本字段之后（0x20 到 0x1000）所有内容的校验和。超级块结构体并未占满 `BTRFS_SUPER_INFO_SIZE`（4096 字节），未使用部分以零填充，并包含在校验和范围内 |
 | `fsid` | 0x20 | 0x10 | UUID | 文件系统 UUID |
-| `bytenr` | 0x30 | 0x8 | UINT | 本块的物理地址（各镜像不同） |
+| `bytenr` | 0x30 | 0x8 | le64 | 本超级块副本的物理地址（各镜像不同） |
 | `flags` | 0x38 | 0x8 | flags | 标志位 |
 | `magic` | 0x40 | 0x8 | ASCII | 魔数 `"_BHRfS_M"` |
-| `generation` | 0x48 | 0x8 | UINT | 事务代次 |
-| `root` | 0x50 | 0x8 | UINT | Root Tree 根节点的逻辑地址 |
-| `chunk_root` | 0x58 | 0x8 | UINT | Chunk Tree 根节点的逻辑地址 |
-| `log_root` | 0x60 | 0x8 | UINT | Log Tree 根节点的逻辑地址 |
-| `__unused_log_root_transid` | 0x68 | 0x8 | UINT | 已废弃，始终为 0 |
-| `total_bytes` | 0x70 | 0x8 | UINT | 文件系统总字节数 |
-| `bytes_used` | 0x78 | 0x8 | UINT | 已使用字节数 |
-| `root_dir_objectid` | 0x80 | 0x8 | UINT | Root Dir Object ID（通常为 6） |
-| `num_devices` | 0x88 | 0x8 | UINT | 设备数量 |
-| `sectorsize` | 0x90 | 0x4 | UINT | 扇区大小 |
-| `nodesize` | 0x94 | 0x4 | UINT | 节点大小 |
-| `__unused_leafsize` | 0x98 | 0x4 | UINT | 叶子大小（已废弃） |
-| `stripesize` | 0x9c | 0x4 | UINT | 条带大小 |
-| `sys_chunk_array_size` | 0xa0 | 0x4 | UINT | 系统 chunk 数组大小 |
-| `chunk_root_generation` | 0xa4 | 0x8 | UINT | Chunk Root Generation |
-| `compat_flags` | 0xac | 0x8 | UINT | 兼容标志 |
-| `compat_ro_flags` | 0xb4 | 0x8 | UINT | 只读兼容标志 |
-| `incompat_flags` | 0xbc | 0x8 | UINT | 不兼容标志 |
-| `csum_type` | 0xc4 | 0x2 | UINT | 校验和类型：0=CRC32c（默认），1=XXHASH，2=SHA256，3=BLAKE2 |
-| `root_level` | 0xc6 | 0x1 | UINT | Root Tree 根节点的层级 |
-| `chunk_root_level` | 0xc7 | 0x1 | UINT | Chunk Tree 根节点的层级 |
-| `log_root_level` | 0xc8 | 0x1 | UINT | Log Tree 根节点的层级 |
+| `generation` | 0x48 | 0x8 | le64 | 最后成功提交的事务代次，有时称为`transid` |
+| `root` | 0x50 | 0x8 | le64 | Root Tree 根节点的逻辑地址 |
+| `chunk_root` | 0x58 | 0x8 | le64 | Chunk Tree 根节点的逻辑地址 |
+| `log_root` | 0x60 | 0x8 | le64 | Log Tree 根节点的逻辑地址 |
+| `__unused_log_root_transid` | 0x68 | 0x8 | le64 | 已废弃，始终为 0 |
+| `total_bytes` | 0x70 | 0x8 | le64 | 文件系统总字节数 |
+| `bytes_used` | 0x78 | 0x8 | le64 | 已使用字节数 |
+| `root_dir_objectid` | 0x80 | 0x8 | le64 | Root Dir Object ID（通常为 6） |
+| `num_devices` | 0x88 | 0x8 | le64 | 设备数量 |
+| `sectorsize` | 0x90 | 0x4 | le32 | 扇区大小，设备IO的最小单位，遗留称呼，为了和其他文件系统保持一致往 `block size` 迁移 |
+| `nodesize` | 0x94 | 0x4 | le32 | 节点大小 |
+| `__unused_leafsize` | 0x98 | 0x4 | le32 | 叶子大小（已废弃） |
+| `stripesize` | 0x9c | 0x4 | le32 | 条带大小 |
+| `sys_chunk_array_size` | 0xa0 | 0x4 | le32 | 系统 chunk 数组大小 |
+| `chunk_root_generation` | 0xa4 | 0x8 | le64 | Chunk Tree 根节点的事务代次 |
+| `compat_flags` | 0xac | 0x8 | le64 | 兼容特性标志 |
+| `compat_ro_flags` | 0xb4 | 0x8 | le64 | 只读兼容特性标志 |
+| `incompat_flags` | 0xbc | 0x8 | le64 | 不兼容特性标志 |
+| `csum_type` | 0xc4 | 0x2 | le16 | 校验和类型：0=CRC32c（默认），1=XXHASH，2=SHA256，3=BLAKE2 |
+| `root_level` | 0xc6 | 0x1 | u8 | Root Tree 根节点的层级 |
+| `chunk_root_level` | 0xc7 | 0x1 | u8 | Chunk Tree 根节点的层级 |
+| `log_root_level` | 0xc8 | 0x1 | u8 | Log Tree 根节点的层级 |
 | `dev_item` | 0xc9 | 0x62 | DEV_ITEM | 本设备的 DEV_ITEM 数据 |
-| `label` | 0x12b | 0x100 | ASCII | 标签（btrfs-progs 限制不可包含 `'/'` 或 `'\\'`，内核不作校验） |
-| `cache_generation` | 0x22b | 0x8 | UINT | 空闲空间缓存 v1 的 generation。非零表示正使用 v1 缓存 |
-| `uuid_tree_generation` | 0x233 | 0x8 | UINT | UUID Tree 根节点的事务代次 |
+| `label` | 0x12b | 0x100 | ASCII | 文件系统标签（btrfs-progs 限制不可包含 `'/'` 或 `'\\'`，内核不作校验） |
+| `cache_generation` | 0x22b | 0x8 | le64 | 空闲空间缓存 v1 的 generation。非零表示正使用 v1 缓存 |
+| `uuid_tree_generation` | 0x233 | 0x8 | le64 | UUID Tree 根节点的事务代次 |
 | `metadata_uuid` | 0x23b | 0x10 | UUID | 写入 B-tree 节点的 UUID，可能与 `fsid` 不同 |
-| `nr_global_roots` | 0x24b | 0x8 | UINT | 全局根节点数量（CPU 序，非小端） |
-| `remap_root` | 0x253 | 0x8 | UINT | Remap Tree 根节点的逻辑地址 |
-| `remap_root_generation` | 0x25b | 0x8 | UINT | Remap Tree 根节点的事务代次 |
-| `remap_root_level` | 0x263 | 0x1 | UINT | Remap Tree 根节点的层级 |
+| `nr_global_roots` | 0x24b | 0x8 | le64 | 全局根节点数量（CPU 序，非小端） |
+| `remap_root` | 0x253 | 0x8 | le64 | Remap Tree 根节点的逻辑地址 |
+| `remap_root_generation` | 0x25b | 0x8 | le64 | Remap Tree 根节点的事务代次 |
+| `remap_root_level` | 0x263 | 0x1 | u8 | Remap Tree 根节点的层级 |
 | `reserved` | 0x264 | 0xc7 | — | 保留（199 字节） |
 | `sys_chunk_array` | 0x32b | 0x800 | array | 所有 SYSTEM chunk 的 (KEY, CHUNK_ITEM) 对 |
 | `super_roots` | 0xb2b | 0x2a0 | array | 4 个 `btrfs_root_backup` |
-| `padding` | 0xdcb | 0x235 | — | 填充至 4096 字节（565 字节） |
+| `padding` | 0xdcb | 0x235 | — | 末尾填充，无实际意义 |
 
 ## 魔数
 
@@ -187,7 +187,7 @@ struct btrfs_root_backup {
 
 **重要限制**：backup roots 仅记录根节点的逻辑地址，Btrfs 不会因此保留或 pin 住这些逻辑地址对应的 tree block。COW 产生新根节点后，旧节点对应的 extent 仍会被正常释放，其空间可被后续写入覆盖。因此 backup roots 仅在超级块自身损坏（如写入超级块时崩溃）且底层 tree block 尚未被覆写时有效——它是一种尽力而为（best-effort）的恢复机制，不保证旧数据完整性。
 
-## 系统 Chunk 数组
+## SYSTEM Chunk 数组
 
 `sys_chunk_array` 保存**所有** SYSTEM block group 的 chunk 条目。每条条目由一个 `btrfs_disk_key` 后接 `btrfs_chunk_item` 组成。新分配 SYSTEM chunk 时通过 `btrfs_add_system_chunk()` 追加，释放时通过 `btrfs_del_sys_chunk()` 移除——无筛选，全量保存。若数组空间不足，分配返回 `-EFBIG`。
 
